@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Player, Game } from "../../api/types";
+import { Player, Game, Players } from "../../api/types";
 import { getAllPlayers } from "../../api/players";
 import { arrayFromObject } from "../../api/utils";
 import { getAllGames, addGame } from "../../api/games";
 
 function Games() {
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<Players>();
   const [games, setGames] = useState<Game[]>([]);
   const [player1, setPlayer1] = useState("Player 1");
   const [player2, setPlayer2] = useState("Player 2");
@@ -14,7 +14,7 @@ function Games() {
   const fetchAllPlayers = async () => {
     const players = await getAllPlayers();
 
-    setPlayers(arrayFromObject(players));
+    setPlayers(players);
   };
 
   const fetchAllGames = async () => {
@@ -32,8 +32,10 @@ function Games() {
   const onSelect = (e: React.SyntheticEvent<HTMLSelectElement, Event>) => {
     setPlayer1(e.currentTarget.value);
   };
-  
-  const onSelectPlayer2 = (e: React.SyntheticEvent<HTMLSelectElement, Event>) => {
+
+  const onSelectPlayer2 = (
+    e: React.SyntheticEvent<HTMLSelectElement, Event>
+  ) => {
     setPlayer2(e.currentTarget.value);
   };
 
@@ -46,11 +48,19 @@ function Games() {
       player2Id: player2,
       player1Score,
       player2Score,
-      winnerId,
-    })
-  }
+      winnerId
+    });
 
-  console.log(player2);
+    setPlayer1Score(0);
+    setPlayer1("Player 1");
+    setPlayer2("Player 2");
+
+    fetchAllGames();
+  };
+
+  const playersArray = players ? arrayFromObject(players) : [];
+  const playersObject = players ? players : {};
+
   return (
     <div className="Games">
       <h1>Games</h1>
@@ -62,7 +72,7 @@ function Games() {
           <option value="Player 1" disabled>
             Select a player
           </option>
-          {players.map(({ id, name }) => (
+          {playersArray.map(({ id, name }) => (
             <option key={id} value={id}>
               {name}
             </option>
@@ -88,7 +98,7 @@ function Games() {
           <option value="Player 2" disabled>
             Select a player
           </option>
-          {players.map(({ id, name }) => {
+          {playersArray.map(({ id, name }) => {
             return player1 !== id ? (
               <option key={id} value={id}>
                 {name}
@@ -101,9 +111,17 @@ function Games() {
 
       <button onClick={onSubmitGame}>Add Game</button>
       <h2>History</h2>
-      {games.map(game => (
-        <div>{game}</div>
-      ))}
+      <ol>
+        {games.map(game => (
+          <li className="Game">
+            <div>
+              {playersObject[game.player1Id].name} - {game.player1Score} vs {playersObject[game.player2Id].name} -{" "}
+              {game.player2Score}
+            </div>
+            <div>Winner: {playersObject[game.winnerId].name}</div>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }

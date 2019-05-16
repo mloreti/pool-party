@@ -3,10 +3,15 @@ export interface Player {
   readonly name: string;
 }
 
+export interface Players {
+  readonly [key: string]: Player;
+}
+
 export interface Game {
-  player1Id: string;
-  player2Id: string;
-  player1Score: number;
-  player2Score: number;
-  winnerId: string;
+  readonly id: string;
+  readonly player1Id: string;
+  readonly player2Id: string;
+  readonly player1Score: number;
+  readonly player2Score: number;
+  readonly winnerId: string;
 }

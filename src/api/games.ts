@@ -1,5 +1,6 @@
 import firebase from "../lib/firebase";
 import { Game } from "./types";
+import { Omit } from "yargs";
 
 export const getAllGames = () => {
   return firebase
@@ -9,7 +10,7 @@ export const getAllGames = () => {
     .then(snapshot => snapshot.val());
 };
 
-export type AddGame = (game: Game) => Promise<any>;
+export type AddGame = (game: Omit<Game, 'id'>) => Promise<any>;
 export const addGame: AddGame = ({
   player1Id,
   player2Id,
