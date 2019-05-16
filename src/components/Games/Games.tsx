@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Player, Game, Players } from "../../api/types";
+import { Game, Player } from "../../api/types";
 import { getAllPlayers } from "../../api/players";
 import { arrayFromObject } from "../../api/utils";
-import { getAllGames, addGame } from "../../api/games";
+import { getAllGames, addGame, deleteGame } from "../../api/games";
+import PlayerName from "../PlayerName";
 
 function Games() {
-  const [players, setPlayers] = useState<Players>();
+  const [players, setPlayers] = useState<Player[]>([]);
   const [games, setGames] = useState<Game[]>([]);
   const [player1, setPlayer1] = useState("Player 1");
   const [player2, setPlayer2] = useState("Player 2");
@@ -14,7 +15,7 @@ function Games() {
   const fetchAllPlayers = async () => {
     const players = await getAllPlayers();
 
-    setPlayers(players);
+    setPlayers(arrayFromObject(players));
   };
 
   const fetchAllGames = async () => {
@@ -58,8 +59,11 @@ function Games() {
     fetchAllGames();
   };
 
-  const playersArray = players ? arrayFromObject(players) : [];
-  const playersObject = players ? players : {};
+  const removeGame = (gameId: string) => {
+    deleteGame(gameId).then(() => {
+      fetchAllGames();
+    });
+  };
 
   return (
     <div className="Games">
@@ -72,7 +76,7 @@ function Games() {
           <option value="Player 1" disabled>
             Select a player
           </option>
-          {playersArray.map(({ id, name }) => (
+          {players.map(({ id, name }) => (
             <option key={id} value={id}>
               {name}
             </option>
@@ -98,7 +102,7 @@ function Games() {
           <option value="Player 2" disabled>
             Select a player
           </option>
-          {playersArray.map(({ id, name }) => {
+          {players.map(({ id, name }) => {
             return player1 !== id ? (
               <option key={id} value={id}>
                 {name}
@@ -115,10 +119,20 @@ function Games() {
         {games.map(game => (
           <li className="Game">
             <div>
-              {playersObject[game.player1Id].name} - {game.player1Score} vs {playersObject[game.player2Id].name} -{" "}
-              {game.player2Score}
+              <PlayerName id={game.player1Id} />{" "}
+              <strong>{game.player1Score}</strong> vs{" "}
+              <strong>{game.player2Score}</strong>{" "}
+              <PlayerName id={game.player2Id} />
             </div>
-            <div>Winner: {playersObject[game.winnerId].name}</div>
+            <div>
+              Winner:{" "}
+              <strong>
+                <PlayerName id={game.winnerId} />
+              </strong>
+            </div>
+            <div style={{ color: "red" }}>
+              <span onClick={() => removeGame(game.id)}>Remove X</span>
+            </div>
           </li>
         ))}
       </ol>

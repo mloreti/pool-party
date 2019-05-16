@@ -3,7 +3,8 @@ import { RouteComponentProps } from "react-router";
 import { getPlayerById } from "../../api/players";
 import { Player, Game } from "../../api/types";
 import { getAllGames } from "../../api/games";
-import { arrayFromObject, gamesByPlayerId } from "../../api/utils";
+import { arrayFromObject, gamesByPlayerId, timeFromNow } from "../../api/utils";
+import PlayerName from "../PlayerName";
 
 interface PlayerProfileRouterProps {
   readonly id: string;
@@ -37,7 +38,18 @@ const PlayerProfile: FC<PlayerProfileProps> = ({ match }) => {
       <h1>{info.name}</h1>
       <h2>Games Played</h2>
       {gamesPlayed.map(game => (
-        <div>{game.id}</div>
+        <div key={game.id}>
+          {game.winnerId === userId ? `✅` : `❌`}
+          <div>{timeFromNow(game.time)}</div>
+          <div>
+            Opponent:{" "}
+            {game.player1Id === userId ? (
+              <PlayerName id={game.player2Id} />
+            ) : (
+              <PlayerName id={game.player1Id} />
+            )}
+          </div>
+        </div>
       ))}
     </div>
   );

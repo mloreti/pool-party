@@ -8,6 +8,7 @@ export interface Players {
 }
 
 export interface Game {
+  readonly time: string;
   readonly id: string;
   readonly player1Id: string;
   readonly player2Id: string;
