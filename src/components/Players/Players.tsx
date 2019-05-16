@@ -10,8 +10,7 @@ function Players() {
   const [input, setInput] = useState("");
 
   const fetchAllPlayers = async () => {
-    const response = await getAllPlayers();
-    const players = response ? response : [];
+    const players = await getAllPlayers();
     setPlayers(arrayFromObject(players));
   }
 
