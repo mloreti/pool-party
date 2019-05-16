@@ -1,4 +1,4 @@
-export interface User {
+export interface Player {
   readonly id: string;
   readonly name: string;
 }

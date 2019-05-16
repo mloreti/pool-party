@@ -1,17 +1,17 @@
 import firebase from '../lib/firebase';
 
-export const getAllUsers = () => {
+export const getAllPlayers = () => {
   return firebase
     .database()
-    .ref('users')
+    .ref('players')
     .once('value')
     .then(snapshot => snapshot.val());
 }
-type AddUser = (userInfo: {name: string}) => Promise<any>;
-export const addUser: AddUser = ({ name }) => {
+type AddPlayer = (playerInfo: {name: string}) => Promise<any>;
+export const addPlayer: AddPlayer = ({ name }) => {
   const ref = firebase
     .database()
-    .ref('users/')
+    .ref('players/')
     .push();
 
   return ref.set({

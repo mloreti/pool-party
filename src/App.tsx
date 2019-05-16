@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
 import './App.css';
-import { getAllUsers, addUser } from './api/users';
-import { User } from './api/types';
+import { getAllPlayers, addPlayer } from './api/players';
+import { Player } from './api/types';
 import { arrayFromObject } from './api/utils';
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
   const [input, setInput] = useState('');
 
-  const fetchAllUsers = async () => {
-    const response = await getAllUsers();
-    setUsers(arrayFromObject(response));
+  const fetchAllPlayers = async () => {
+    const response = await getAllPlayers();
+    const players = response ? response : [];
+    setPlayers(arrayFromObject(players));
   }
 
   useEffect(() => {
-    fetchAllUsers();
+    fetchAllPlayers();
   }, []);
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,16 +24,16 @@ function App() {
   }
 
   const submit = () => {
-    addUser({ name: input });
+    addPlayer({ name: input });
     setInput('');
   }
 
-  console.log(users);
+  console.log(players);
 
   return (
     <div className="App">
-      <input name="name" value={input} onChange={onInputChange} placeholder="update me" />
-      <button onClick={submit}>Add User</button>
+      <input name="name" value={input} onChange={onInputChange} placeholder="Player name" />
+      <button onClick={submit}>Add Player</button>
     </div>
   );
 }
