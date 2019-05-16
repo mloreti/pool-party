@@ -7,6 +7,15 @@ export const getAllPlayers = () => {
     .once('value')
     .then(snapshot => snapshot.val());
 }
+
+export const getPlayerById = (id: string) => {
+  return firebase
+    .database()
+    .ref(`players/${id}`)
+    .once('value')
+    .then(snapshot => snapshot.val());
+}
+
 type AddPlayer = (playerInfo: {name: string}) => Promise<any>;
 export const addPlayer: AddPlayer = ({ name }) => {
   const ref = firebase
