@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import usePlayerName from './usePlayerName';
+import { Link } from 'react-router-dom';
 
 export interface PlayerNameProps {
   readonly id: string;
@@ -8,7 +9,7 @@ export interface PlayerNameProps {
 const PlayerName: FC<PlayerNameProps> = ({ id }) => {
   const name = usePlayerName(id);
 
-  return  <span>{name}</span>;
+  return  <Link to={`/players/${id}`}>{name}</Link>;
 }
 
 export default PlayerName;

@@ -39,7 +39,6 @@ const PlayerProfile: FC<PlayerProfileProps> = ({ match }) => {
       <h2>Games Played</h2>
       {gamesPlayed.map(game => (
         <div key={game.id}>
-          {game.winnerId === userId ? `✅` : `❌`}
           <div>{timeFromNow(game.time)}</div>
           <div>
             Opponent:{" "}
@@ -49,6 +48,8 @@ const PlayerProfile: FC<PlayerProfileProps> = ({ match }) => {
               <PlayerName id={game.player1Id} />
             )}
           </div>
+          {game.winnerId === userId ? `✅` : `❌`}
+          {game.player1Score} - {game.player2Score}
         </div>
       ))}
     </div>

@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+
 import { Game, Player } from "../../api/types";
 import { getAllPlayers } from "../../api/players";
 import { arrayFromObject } from "../../api/utils";
 import { getAllGames, addGame, deleteGame } from "../../api/games";
 import PlayerName from "../PlayerName";
+
+import "./Games.css";
+import { Link } from "react-router-dom";
 
 function Games() {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -118,21 +122,26 @@ function Games() {
       <ol>
         {games.map(game => (
           <li className="Game">
-            <div>
-              <PlayerName id={game.player1Id} />{" "}
-              <strong>{game.player1Score}</strong> vs{" "}
-              <strong>{game.player2Score}</strong>{" "}
-              <PlayerName id={game.player2Id} />
-            </div>
-            <div>
-              Winner:{" "}
-              <strong>
-                <PlayerName id={game.winnerId} />
-              </strong>
-            </div>
-            <div style={{ color: "red" }}>
-              <span onClick={() => removeGame(game.id)}>Remove X</span>
-            </div>
+            <Link to={`/games/${game.id}`}>
+            Link to game
+            </Link>
+              <div>
+                <PlayerName id={game.player1Id} />{" "}
+                <strong>{game.player1Score}</strong> vs{" "}
+                <strong>{game.player2Score}</strong>{" "}
+                <PlayerName id={game.player2Id} />
+              </div>
+              <div>
+                Winner:{" "}
+                <strong>
+                  <PlayerName id={game.winnerId} />
+                </strong>
+              </div>
+              <div>
+                <span className="remove" onClick={() => removeGame(game.id)}>
+                  Remove X
+                </span>
+              </div>
           </li>
         ))}
       </ol>

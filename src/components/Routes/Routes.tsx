@@ -4,6 +4,7 @@ import Players from "../Players";
 import Home from "../Home";
 import Games from "../Games";
 import PlayerProfile from "../PlayerProfile";
+import Game from "../Game";
 
 function Routes() {
   return (
@@ -12,6 +13,7 @@ function Routes() {
       <Route exact path="/players" component={Players} />
       <Route path="/players/:id" component={PlayerProfile} />
       <Route exact path="/games" component={Games} />
+      <Route path="/games/:id" component={Game} />
       <Redirect to="/" />
     </Switch>
   );

@@ -11,6 +11,14 @@ export const getAllGames = () => {
     .then(snapshot => snapshot.val());
 };
 
+export const getGameById = (id: string) => {
+  return firebase
+    .database()
+    .ref(`games/${id}`)
+    .once("value")
+    .then(snapshot => snapshot.val());
+};
+
 export type AddGame = (game: Omit<Game, 'id' | 'time'>) => Promise<any>;
 export const addGame: AddGame = ({
   player1Id,
