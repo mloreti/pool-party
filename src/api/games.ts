@@ -1,4 +1,4 @@
-import * as Firebase from 'firebase';
+import { database } from 'firebase';
 import firebase from "../lib/firebase";
 import { Game } from "./types";
 import { Omit } from "yargs";
@@ -33,7 +33,7 @@ export const addGame: AddGame = ({
     .push();
 
   return ref.set({
-    time: Firebase.database.ServerValue.TIMESTAMP,
+    time: database.ServerValue.TIMESTAMP,
     id: ref.key,
     player1Id,
     player2Id,
