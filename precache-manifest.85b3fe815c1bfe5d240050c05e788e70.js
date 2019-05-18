@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e924079b309118fe28424364b6633668",
+    "revision": "386bbb92ce0ec7323d06d27a22ecfbe6",
     "url": "/pool-party/index.html"
   },
   {
