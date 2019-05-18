@@ -38,7 +38,7 @@ function Players() {
         onChange={onInputChange}
         placeholder="Player name"
       />
-      <button onClick={submit}>Add Player</button>
+      <button onClick={submit} disabled={input.length < 1}>Add Player</button>
       <ul>
         {players.map(({id, name}) => (
           <li key={id}>
