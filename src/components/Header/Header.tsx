@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import './Header.css';
+
 function Header() {
   return (
-    <nav>
+    <nav className="Nav">
       <ul>
         <li>
           <Link to="/">Home</Link>

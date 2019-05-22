@@ -3,20 +3,23 @@ import { Link } from "react-router-dom";
 
 import { Game } from "../../api/types";
 import { arrayFromObject } from "../../api/utils";
-import { getAllGames } from "../../api/games";
+import { getLastNGames } from "../../api/games";
 import PlayerName from "../PlayerName";
 import GameForm from "../GameForm";
+
+import "./Games.css";
+import DateText from "../DateText";
 
 function Games() {
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
-    fetchAllGames();
-  }, [])
+    fetchLast12Games();
+  }, []);
 
-  const fetchAllGames = async () => {
-    const response = await getAllGames();
-    const games = response ? response : [];
+  const fetchLast12Games = async () => {
+    const response = await getLastNGames(12);
+    const games = arrayFromObject(response).reverse();
 
     setGames(arrayFromObject(games));
   };
@@ -24,12 +27,14 @@ function Games() {
   return (
     <div className="Games">
       <h1>Games</h1>
-      <GameForm onAddGame={fetchAllGames} />
+      <GameForm onAddGame={fetchLast12Games} />
       <h2>History</h2>
-      <ol>
+      <ul>
         {games.map(game => (
           <li className="Game">
-            <Link to={`/games/${game.id}`}>Link to game</Link>
+            <Link to={`/games/${game.id}`}>
+              <DateText date={game.time} />
+            </Link>
             <div>
               <PlayerName id={game.player1Id} />{" "}
               <strong>{game.player1Score}</strong> vs{" "}
@@ -44,7 +49,7 @@ function Games() {
             </div>
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   );
 }

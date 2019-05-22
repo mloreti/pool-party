@@ -4,9 +4,9 @@ import { RouteComponentProps } from "react-router";
 import { Game } from "../../api/types";
 import { getGameById, deleteGame } from "../../api/games";
 import PlayerName from "../PlayerName";
-import { timeFromNow } from "../../api/utils";
 
 import "./Game.css";
+import { dateFormat } from "../../api/utils";
 
 interface GameRouterProps {
   readonly id: string;
@@ -29,27 +29,30 @@ const GamePage: FC<GameProps> = ({ match, history }) => {
   }
 
   const removeGame = (gameId: string) => {
-    deleteGame(gameId).then(() => {
-      history.push("/games")
-    });
+    const verify = window.confirm('Delete Game?');
+
+    if (verify) {
+      deleteGame(gameId).then(() => {
+        history.push("/games");
+      });
+    }
   };
 
   return (
     <div className="Game">
       <h1>Game</h1>
-      <h4>{timeFromNow(game.time)}</h4>
-      <h4>
-        Winner: <PlayerName id={game.winnerId} />
+      <h4 style={{ marginBottom: 10 }}>
+        {dateFormat(game.time)}
       </h4>
-      <PlayerName id={game.player1Id} />
-      <h1>{game.player1Score}</h1>
-      <PlayerName id={game.player2Id} />
-      <h1>{game.player2Score}</h1>
-      <div>
+      <div style={{ marginBottom: 20 }}>
         <span className="remove" onClick={() => removeGame(game.id)}>
           Delete Game
         </span>
       </div>
+      <PlayerName id={game.player1Id} />
+      <h1>{game.player1Score}</h1>
+      <PlayerName id={game.player2Id} />
+      <h1>{game.player2Score}</h1>
     </div>
   );
 };

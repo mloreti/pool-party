@@ -1,0 +1,23 @@
+.App {
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+a {
+  color: darkslategrey;
+  text-decoration: none;
+}
+
+a:hover {
+  color: darkslateblue;
+  text-decoration: underline;
+}
+
+a:visted {
+  color: darkslategrey;
+  text-decoration: none;
+}

@@ -19,3 +19,10 @@ export const timeFromNow = (time: string) => {
 
   return momentFormat.startOf().fromNow();
 }
+
+export const dateFormat = (time: string) => {
+  const date = new Date(time);
+  const momentFormat = moment(date).format('MMMM Do, YYYY - h:mm a');
+
+  return momentFormat;
+}

@@ -1,0 +1,18 @@
+.PlayerGames {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.PlayerGame {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.PlayerGame .Content {
+  display: flex;
+  align-items: baseline;
+}
+
+.opponent {
+  width: 40%;
+}

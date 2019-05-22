@@ -11,6 +11,15 @@ export const getAllGames = () => {
     .then(snapshot => snapshot.val());
 };
 
+export const getLastNGames = (n: number) => {
+  return firebase
+    .database()
+    .ref("games")
+    .limitToLast(n)
+    .once("value")
+    .then(snapshot => snapshot.val());
+};
+
 export const getGameById = (id: string) => {
   return firebase
     .database()
