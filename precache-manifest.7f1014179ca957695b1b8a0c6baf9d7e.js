@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "752d9516021e908feb77bc9184e2a46b",
+    "revision": "e0e764964377dee1f67ab0fb9c7ad73d",
     "url": "/pool-party/index.html"
   },
   {
-    "revision": "f03f5ae0b25504867d0a",
+    "revision": "3fcdfdfdb98119cf64c0",
     "url": "/pool-party/static/css/main.274c3519.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pool-party/static/js/2.dd61bbf7.chunk.js"
   },
   {
-    "revision": "f03f5ae0b25504867d0a",
-    "url": "/pool-party/static/js/main.d0f5b781.chunk.js"
+    "revision": "3fcdfdfdb98119cf64c0",
+    "url": "/pool-party/static/js/main.de5377a7.chunk.js"
   },
   {
     "revision": "9ae8b72bd454229d81c5",
