@@ -14,8 +14,8 @@ const GameForm: FC<GameFormProps> = ({ onAddGame }) => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [player1, setPlayer1] = useState("Player 1");
   const [player2, setPlayer2] = useState("Player 2");
-  const [player1Score, setPlayer1Score] = useState(0);
-  const [player2Score, setPlayer2Score] = useState(0);
+  const [player1Score, setPlayer1Score] = useState<number | undefined>(undefined);
+  const [player2Score, setPlayer2Score] = useState<number | undefined>(undefined);
 
   const fetchAllPlayers = async () => {
     const players = await getAllPlayers();
@@ -47,22 +47,24 @@ const GameForm: FC<GameFormProps> = ({ onAddGame }) => {
   };
 
   const onSubmitGame = () => {
-    const winnerId = player1Score > player2Score ? player1 : player2;
+    if (!!player1Score && !!player2Score) {
+      const winnerId = player1Score > player2Score ? player1 : player2;
 
-    addGame({
-      player1Id: player1,
-      player2Id: player2,
-      player1Score,
-      player2Score,
-      winnerId
-    });
+      addGame({
+        player1Id: player1,
+        player2Id: player2,
+        player1Score,
+        player2Score,
+        winnerId
+      });
 
-    setPlayer1Score(0);
-    setPlayer2Score(0);
-    setPlayer1("Player 1");
-    setPlayer2("Player 2");
+      setPlayer1Score(0);
+      setPlayer2Score(0);
+      setPlayer1("Player 1");
+      setPlayer2("Player 2");
 
-    onAddGame();
+      onAddGame();
+    }
   };
 
   const button =
