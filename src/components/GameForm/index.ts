@@ -1,1 +1,1 @@
-export { default } from './GameForm';
+export { default } from './GameFormContainer';

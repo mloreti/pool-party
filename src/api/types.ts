@@ -7,6 +7,10 @@ export interface Players {
   readonly [key: string]: Player;
 }
 
+export interface Games {
+  [key: string]: Game;
+}
+
 export interface Game {
   readonly time: string;
   readonly id: string;

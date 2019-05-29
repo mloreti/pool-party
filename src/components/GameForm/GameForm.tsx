@@ -1,40 +1,32 @@
-import React, { useState, useEffect, FC } from "react";
+import React, { useState, FC } from "react";
 import { addGame } from "../../api/games";
-import { arrayFromObject } from "../../api/utils";
 import { Player } from "../../api/types";
-import { getAllPlayers } from "../../api/players";
 
 import "./GameForm.css";
+import { STATUS } from "../../data/types/state";
+import { fetchAllPlayers } from "../../data/actions/players";
 
-export interface GameFormProps {
+export interface DispatchProps {
   onAddGame(): void;
+  fetchAllPlayers(): void;
 }
 
-const GameForm: FC<GameFormProps> = ({ onAddGame }) => {
-  const [players, setPlayers] = useState<Player[]>([]);
+export interface StateProps {
+  readonly players: Player[];
+  readonly status: STATUS;
+}
+
+export type GameFormProps = DispatchProps & StateProps;
+
+const GameForm: FC<GameFormProps> = ({ fetchAllPlayers, onAddGame, status, players }) => {
   const [player1, setPlayer1] = useState("Player 1");
   const [player2, setPlayer2] = useState("Player 2");
-  const [player1Score, setPlayer1Score] = useState<number | undefined>(undefined);
-  const [player2Score, setPlayer2Score] = useState<number | undefined>(undefined);
+  const [player1Score, setPlayer1Score] = useState<number>(0);
+  const [player2Score, setPlayer2Score] = useState<number>(0);
 
-  const fetchAllPlayers = async () => {
-    const players = await getAllPlayers();
-    const sortedPlayers = arrayFromObject(players).sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
-
-    setPlayers(sortedPlayers);
-  };
-
-  useEffect(() => {
+  if (status === STATUS.NOT_REQUESTED) {
     fetchAllPlayers();
-  }, []);
+  }
 
   const onSelect = (e: React.SyntheticEvent<HTMLSelectElement, Event>) => {
     setPlayer1(e.currentTarget.value);
