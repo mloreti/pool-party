@@ -1,1 +1,2 @@
-export { default } from './WinRate';
+export { default } from './WinRateContainer';
+export * from './WinRateContainer';

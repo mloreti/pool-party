@@ -1,5 +1,6 @@
 import { Game, Player } from "./types";
 import moment from 'moment';
+import { getCubicRoots } from 'cubic-roots';
 
 interface Obj {
   [key: string]: any;
@@ -8,36 +9,13 @@ interface Obj {
 export const arrayFromObject = (obj: Obj) =>
   Object.keys(obj).map(key => obj[key]);
 
-type GamesByPlayerId = (games: Game[], id: Player["id"]) => Game[];
-export const gamesByPlayerId: GamesByPlayerId = (games, id) =>
-  games.filter(game => game.player1Id === id || game.player2Id === id);
 
-type GamesBetweenPlayers = (player1Id: Player['id'], player2Id: Player['id'], games: Game[]) => Game[];
-export const gamesBetweenPlayers: GamesBetweenPlayers = (player1Id, player2Id, games) =>
-  games.filter(game => (
-    (game.player1Id === player1Id && game.player2Id === player2Id)
-    || 
-    (game.player1Id === player2Id && game.player2Id === player1Id)
-  ));
 
-type OpponentForGame = (player: Player, game: Game) => Player['id'];
-export const opponentForGame: OpponentForGame = (player, game) => 
-  (game.player1Id === player.id ? game.player2Id : game.player1Id);
+type OpponentForGame = (id: Player['id'], game: Game) => Player['id'];
+export const opponentForGame: OpponentForGame = (id, game) => 
+  (game.player1Id === id ? game.player2Id : game.player1Id);
 
-type PlayersPlayerPlayed = (player: Player, allGames: Game[]) => Player['id'][];
-export const playersPlayerPlayed: PlayersPlayerPlayed = (player, allGames) => {
-  const uniqueOpponentIds: Player['id'][] = [];
-  const gamesPlayerPlayed = gamesByPlayerId(allGames, player.id);
 
-  gamesPlayerPlayed.forEach(game => {
-    const opponentId = opponentForGame(player, game);
-    if (uniqueOpponentIds.indexOf(opponentId) < 0) {
-      uniqueOpponentIds.push(opponentId);
-    }
-  });
-
-  return uniqueOpponentIds;
-};
 
 export const timeFromNow = (time: string) => {
   const date = new Date(time);
@@ -51,4 +29,21 @@ export const dateFormat = (time: string) => {
   const momentFormat = moment(date).format('MMMM Do, YYYY - h:mm a');
 
   return momentFormat;
+}
+
+export const calculateRatingDifference = (winRate: number) => {
+  const diff = getCubicRootsReal(
+    0.000000001392724612439186,
+    -0.000002904144213167561,
+    0.002064097901975022,
+    0.4912753313135377,
+    winRate,
+  );
+  return Math.round(diff);
+}
+
+// The cubic equation solved is Ax3 + Bx2 + Cx + D = equalTo.
+export const getCubicRootsReal = (A: number, B: number, C: number, D: number, equalTo: number) => {
+  const roots = getCubicRoots(A, B, C, D - equalTo);
+  return roots[0].real;
 }
