@@ -43,24 +43,22 @@ const GameForm: FC<GameFormProps> = ({
   };
 
   const onSubmitGame = () => {
-    if (!!player1Score && !!player2Score) {
-      const winnerId = player1Score > player2Score ? player1 : player2;
+    const winnerId = player1Score > player2Score ? player1 : player2;
 
-      addGame({
-        player1Id: player1,
-        player2Id: player2,
-        player1Score,
-        player2Score,
-        winnerId
-      });
+    addGame({
+      player1Id: player1,
+      player2Id: player2,
+      player1Score,
+      player2Score,
+      winnerId
+    });
 
-      setPlayer1Score(0);
-      setPlayer2Score(0);
-      setPlayer1("Player 1");
-      setPlayer2("Player 2");
+    setPlayer1Score(0);
+    setPlayer2Score(0);
+    setPlayer1("Player 1");
+    setPlayer2("Player 2");
 
-      onAddGame();
-    }
+    onAddGame();
   };
 
   const button =
