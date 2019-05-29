@@ -55,7 +55,7 @@ const PlayerProfile: FC<PlayerProfileProps> = ({ match }) => {
       <div>
         {
           playersPlayed.map(opponentId => (
-            <div className="opponent">
+            <div key={opponentId} className="opponent">
               <PlayerName id={opponentId} /> - <WinRate player1Id={userId} player2Id={opponentId} games={allGamesPlayed} />
             </div>
           ))
