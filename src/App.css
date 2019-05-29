@@ -3,6 +3,7 @@ body {
   justify-content: center;
   margin: 0;
   padding: 0;
+  background-color: ghostwhite;
 }
 
 ul {
@@ -17,6 +18,9 @@ ul {
   flex-direction: column;
   padding: 20px;
   box-sizing: border-box;
+  border-radius: 5px;
+  background-color: white;
+  min-height: 100vh;
 }
 
 a {
