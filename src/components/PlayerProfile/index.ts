@@ -1,1 +1,2 @@
-export { default } from './PlayerProfile';
+export { default } from './PlayerProfileContainer';
+export * from './PlayerProfileContainer';

@@ -1,6 +1,8 @@
 export interface Player {
   readonly id: string;
   readonly name: string;
+  readonly rating: number;
+  readonly ratingConfidence: number;
 }
 
 export interface Players {
