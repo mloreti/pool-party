@@ -1,4 +1,4 @@
-import { Games, Players, Player, Game } from "../../api/types";
+import { Games, Players } from "../../api/types";
 
 export enum STATUS {
   NOT_REQUESTED = "NOT_REQUESTED",
