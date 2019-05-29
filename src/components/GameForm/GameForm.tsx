@@ -4,7 +4,6 @@ import { Player } from "../../api/types";
 
 import "./GameForm.css";
 import { STATUS } from "../../data/types/state";
-import { fetchAllPlayers } from "../../data/actions/players";
 
 export interface DispatchProps {
   onAddGame(): void;

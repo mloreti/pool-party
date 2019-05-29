@@ -1,7 +1,6 @@
-import React, { useState, useEffect, FC } from "react";
+import React, { useState, FC } from "react";
 
-import { getAllPlayers, addPlayer } from "../../api/players";
-import { arrayFromObject } from "../../api/utils";
+import { addPlayer } from "../../api/players";
 import { Player } from "../../api/types";
 import { Link } from "react-router-dom";
 import { STATUS } from "../../data/types/state";
