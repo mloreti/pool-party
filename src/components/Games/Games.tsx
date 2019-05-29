@@ -20,11 +20,17 @@ export interface DispatchProps {
 
 export type GamesProps = StateProps & DispatchProps;
 
+const getWinnerClass = (id: string, winnerId: string) => {
+  const winner = winnerId === id ? ' winner' :''
+
+  return `score` + winner;
+}
+
 function GamesPage(props: GamesProps) {
   if (props.status === STATUS.NOT_REQUESTED) {
     props.fetchAllGames();
   }
-  
+
   return (
     <div className="Games">
       <h1>Games</h1>
@@ -37,16 +43,12 @@ function GamesPage(props: GamesProps) {
               <DateText date={game.time} />
             </Link>
             <div>
-              <PlayerName id={game.player1Id} />{" "}
-              <strong>{game.player1Score}</strong> vs{" "}
-              <strong>{game.player2Score}</strong>{" "}
-              <PlayerName id={game.player2Id} />
-            </div>
-            <div>
-              Winner:{" "}
-              <strong>
-                <PlayerName id={game.winnerId} />
-              </strong>
+              <div className={getWinnerClass(game.player1Id, game.winnerId)}>
+                <PlayerName id={game.player1Id} /> {game.player1Score}
+              </div>
+              <div className={getWinnerClass(game.player2Id, game.winnerId)}>
+                <PlayerName id={game.player2Id} /> {game.player2Score}
+              </div>
             </div>
           </li>
         ))}

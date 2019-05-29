@@ -17,7 +17,12 @@ export interface StateProps {
 
 export type GameFormProps = DispatchProps & StateProps;
 
-const GameForm: FC<GameFormProps> = ({ fetchAllPlayers, onAddGame, status, players }) => {
+const GameForm: FC<GameFormProps> = ({
+  fetchAllPlayers,
+  onAddGame,
+  status,
+  players
+}) => {
   const [player1, setPlayer1] = useState("Player 1");
   const [player2, setPlayer2] = useState("Player 2");
   const [player1Score, setPlayer1Score] = useState<number>(0);
@@ -86,9 +91,11 @@ const GameForm: FC<GameFormProps> = ({ fetchAllPlayers, onAddGame, status, playe
               Score
               <input
                 type="number"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={player1Score}
-                max={17}
                 min={0}
+                max={17}
                 onChange={e => setPlayer1Score(Number(e.currentTarget.value))}
               />
             </label>
@@ -113,9 +120,11 @@ const GameForm: FC<GameFormProps> = ({ fetchAllPlayers, onAddGame, status, playe
               Score
               <input
                 type="number"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={player2Score}
-                max={17}
                 min={0}
+                max={17}
                 onChange={e => setPlayer2Score(Number(e.currentTarget.value))}
               />
             </label>

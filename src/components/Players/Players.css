@@ -1,0 +1,8 @@
+.Players ul {
+  margin-top: 20px;
+}
+
+.Players li {
+  list-style: none;
+  margin: 8px 0;
+}

@@ -5,6 +5,8 @@ import { Player } from "../../api/types";
 import { Link } from "react-router-dom";
 import { STATUS } from "../../data/types/state";
 
+import './Players.css';
+
 export interface StateProps{
   readonly players: Player[];
   readonly status: STATUS;

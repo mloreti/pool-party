@@ -9,8 +9,9 @@ const DateText: FC<DateProps> = ({ date }) => {
   return (
     <span
       style={{
-        color: "lightslategray",
-        fontSize: "12px",
+        color: "silver",
+        fontSize: "10px",
+        fontWeight: 'bold',
         textTransform: "uppercase",
         letterSpacing: "0.1px"
       }}
