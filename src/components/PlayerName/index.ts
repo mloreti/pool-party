@@ -1,1 +1,1 @@
-export { default } from './PlayerName';
+export { default } from './PlayerNameContainer';

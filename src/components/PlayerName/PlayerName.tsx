@@ -1,14 +1,26 @@
 import React, { FC } from 'react';
-import usePlayerName from './usePlayerName';
 import { Link } from 'react-router-dom';
+import { Player } from '../../api/types';
 
-export interface PlayerNameProps {
+export interface OwnProps {
   readonly id: string;
 }
 
-const PlayerName: FC<PlayerNameProps> = ({ id }) => {
-  const name = usePlayerName(id);
+export interface StateProps {
+  readonly name: Player['name'] | null;
+  readonly pending: boolean;
+}
 
+export interface DispatchProps {
+  fetchPlayer(id: OwnProps['id']): void;
+}
+
+export type PlayerNameProps = StateProps & OwnProps & DispatchProps;
+
+const PlayerName: FC<PlayerNameProps> = ({ id, name, fetchPlayer, pending }) => {
+  if (!name && !pending) {
+    fetchPlayer(id);
+  }
   return  <Link to={`/players/${id}`}>{name}</Link>;
 }
 
