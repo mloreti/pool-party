@@ -1,22 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 
 import { getAllPlayers, addPlayer } from "../../api/players";
 import { arrayFromObject } from "../../api/utils";
 import { Player } from "../../api/types";
 import { Link } from "react-router-dom";
+import { STATUS } from "../../data/types/state";
 
-function Players() {
-  const [players, setPlayers] = useState<Player[]>([]);
+export interface StateProps{
+  readonly players: Player[];
+  readonly status: STATUS;
+}
+
+export interface DispatchProps {
+  fetchAllPlayers(): void;
+}
+
+export type PlayersProps = StateProps & DispatchProps;
+
+const Players: FC<PlayersProps> = ({ status, players, fetchAllPlayers}) => {
   const [input, setInput] = useState("");
 
-  const fetchAllPlayers = async () => {
-    const players = await getAllPlayers();
-    setPlayers(arrayFromObject(players));
+  if (status === STATUS.NOT_REQUESTED) {
+    fetchAllPlayers();
   }
 
-  useEffect(() => {
-    fetchAllPlayers();
-  }, []);
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.currentTarget.value);
