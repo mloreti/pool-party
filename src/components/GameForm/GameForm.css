@@ -10,15 +10,30 @@
 
 .Forms {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 }
 
 .Forms > div {
-  width: 50%;
+  width: 100%;
 }
 
 .Forms form {
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.Forms select {
+  background-color: white;
+  border: none;
+}
+
+.Forms input {
+  border:none;
+  background-color: gainsboro;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding: 8px 18px;
 }

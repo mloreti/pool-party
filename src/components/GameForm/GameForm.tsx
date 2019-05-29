@@ -61,6 +61,10 @@ const GameForm: FC<GameFormProps> = ({
     onAddGame();
   };
 
+  const onInputClick = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    e.currentTarget.setSelectionRange(0, e.currentTarget.value.length)
+  }
+
   const button =
     player1 !== "Player 1" && player2 !== "Player 2" ? (
       <button className="AddGame" onClick={onSubmitGame}>
@@ -88,8 +92,8 @@ const GameForm: FC<GameFormProps> = ({
             <label>
               Score
               <input
-                type="number"
-                inputMode="numeric"
+                onClick={onInputClick}
+                type="text"
                 pattern="[0-9]*"
                 value={player1Score}
                 min={0}
@@ -117,8 +121,8 @@ const GameForm: FC<GameFormProps> = ({
             <label>
               Score
               <input
-                type="number"
-                inputMode="numeric"
+                onClick={onInputClick}
+                type="text"
                 pattern="[0-9]*"
                 value={player2Score}
                 min={0}
