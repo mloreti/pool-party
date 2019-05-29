@@ -1,18 +1,24 @@
-import { Games, Players } from "../../api/types";
+import { Games, Players, Player, Game } from "../../api/types";
 
 export enum STATUS {
-  NOT_REQUESTED = 'NOT_REQUESTED',
-  PENDING = 'PENDING',
-  FULFILLED = 'FULFILLED',
+  NOT_REQUESTED = "NOT_REQUESTED",
+  PENDING = "PENDING",
+  FULFILLED = "FULFILLED"
 }
 
 export interface State {
   games: {
-    byId: Games,
-    status: STATUS,
-  },
+    byId: Games;
+    pending: {
+      [key: string]: boolean;
+    };
+    status: STATUS;
+  };
   players: {
-    byId: Players,
-    status: STATUS,
-  },
+    byId: Players;
+    pending: {
+      [key: string]: boolean;
+    };
+    status: STATUS;
+  };
 }

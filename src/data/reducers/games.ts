@@ -4,6 +4,7 @@ import { STATUS, State } from "../types/state";
 const defaultState: State['games'] = {
   status: STATUS.NOT_REQUESTED,
   byId: {},
+  pending: {},
 };
 
 type GamesActions = any;
