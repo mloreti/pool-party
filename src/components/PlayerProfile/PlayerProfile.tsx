@@ -1,62 +1,45 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { RouteComponentProps } from "react-router";
-import { getPlayerById } from "../../api/players";
 import { Player, Game } from "../../api/types";
-import { getAllGames } from "../../api/games";
-import { arrayFromObject, gamesByPlayerId, playersPlayerPlayed } from "../../api/utils";
 import PlayerName from "../PlayerName";
 import DateText from "../DateText";
 
 import "./PlayerProfile.css";
 import { Link } from "react-router-dom";
-import WinRate from "../WinRate";
+import WinRate from "../WinRate/WinRateContainer";
 
-interface PlayerProfileRouterProps {
+interface OpponentStat {
+  readonly opponent: Player;
+  readonly winRate: number;
+}
+
+export interface PlayerProfileMatchProps {
   readonly id: string;
 }
 
-interface PlayerProfileProps
-  extends RouteComponentProps<PlayerProfileRouterProps> {}
+export interface StateProps {
+  readonly name: Player['name'];
+  readonly rating: Player['rating'];
+  readonly ratingConfidence: Player['ratingConfidence'];
+  readonly gamesPlayed: Game[],
+  readonly opponentStats: OpponentStat[],
+}
 
+export interface PlayerProfileRouteProps extends RouteComponentProps<PlayerProfileMatchProps> {}
 
-const PlayerProfile: FC<PlayerProfileProps> = ({ match }) => {
-  const [info, setInfo] = useState<Player>({ id: "", name: "" });
-  const [allGamesPlayed, setAllGamesPlayed] = useState<Game[]>([]);
-  const [playersPlayed, setPlayersPlayed] = useState<Player['id'][]>([]);
-  const userId = match.params.id;
+export type PlayerProfileProps = PlayerProfileMatchProps & StateProps;
 
-  const fetchAllGames = async () => {
-    const response = await getAllGames();
-    const games = response ? response : [];
-    const sortedGames = arrayFromObject(games).reverse();
-
-    setAllGamesPlayed(sortedGames);
-  };
-
-  const fetchAllOpponents = async (player: Player, allGames: Game[]) => {
-    const opponentIds = await playersPlayerPlayed(player, allGames);
-    setPlayersPlayed(arrayFromObject(opponentIds));
-  }
-  
-  useEffect(() => {
-    fetchAllGames();
-    getPlayerById(userId).then(player => {
-      setInfo(player);
-      fetchAllOpponents(player, allGamesPlayed);
-    });
-  }, [userId, allGamesPlayed]);
-  
-  const gamesPlayed = gamesByPlayerId(allGamesPlayed, userId);
-
+const PlayerProfile: FC<PlayerProfileProps> = (props) => {
+  let { id, name, rating, opponentStats, gamesPlayed } = props;
   return (
     <div className="PlayerProfile">
-      <h1>{info.name}</h1>
+      <h1>{name} - {rating}</h1>
       <h2>Win Rates</h2>
       <div>
         {
-          playersPlayed.map(opponentId => (
-            <div key={opponentId} className="opponent">
-              <PlayerName id={opponentId} /> - <WinRate player1Id={userId} player2Id={opponentId} games={allGamesPlayed} />
+          opponentStats.map(stat => (
+            <div className="opponent" key={stat.opponent.id}>
+              <PlayerName id={stat.opponent.id} /> - <WinRate player1Id={id} player2Id={stat.opponent.id} />
             </div>
           ))
         }
@@ -71,14 +54,14 @@ const PlayerProfile: FC<PlayerProfileProps> = ({ match }) => {
             <div className="Content">
               <div className="opponent">
                 Opponent:{" "}
-                {game.player1Id === userId ? (
+                {game.player1Id === id ? (
                   <PlayerName id={game.player2Id} />
                 ) : (
                   <PlayerName id={game.player1Id} />
                 )}
               </div>
               <div className="score">
-                {game.winnerId === userId ? `✅` : `❌`}
+                {game.winnerId === id ? `✅` : `❌`}
                 {game.player1Score} - {game.player2Score}
               </div>
             </div>
