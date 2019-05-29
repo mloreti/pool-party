@@ -1,37 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { Game } from "../../api/types";
-import { arrayFromObject } from "../../api/utils";
-import { getLastNGames } from "../../api/games";
 import PlayerName from "../PlayerName";
 import GameForm from "../GameForm";
 
 import "./Games.css";
 import DateText from "../DateText";
+import { STATUS } from "../../data/types/state";
 
-function Games() {
-  const [games, setGames] = useState<Game[]>([]);
+export interface StateProps {
+  readonly games: Game[];
+  readonly status: string;
+}
 
-  useEffect(() => {
-    fetchLast12Games();
-  }, []);
+export interface DispatchProps {
+  fetchAllGames(): void;
+}
 
-  const fetchLast12Games = async () => {
-    const response = await getLastNGames(12);
-    const games = arrayFromObject(response).reverse();
+export type GamesProps = StateProps & DispatchProps;
 
-    setGames(arrayFromObject(games));
-  };
-
+function GamesPage(props: GamesProps) {
+  if (props.status === STATUS.NOT_REQUESTED) {
+    props.fetchAllGames();
+  }
+  
   return (
     <div className="Games">
       <h1>Games</h1>
-      <GameForm onAddGame={fetchLast12Games} />
+      <GameForm />
       <h2>History</h2>
       <ul>
-        {games.map(game => (
-          <li className="Game">
+        {props.games.map((game: Game) => (
+          <li key={game.id} className="Game">
             <Link to={`/games/${game.id}`}>
               <DateText date={game.time} />
             </Link>
@@ -54,4 +55,4 @@ function Games() {
   );
 }
 
-export default Games;
+export default GamesPage;
