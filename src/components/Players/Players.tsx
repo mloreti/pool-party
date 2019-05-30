@@ -2,10 +2,11 @@ import React, { useState, FC } from "react";
 
 import { addPlayer } from "../../api/players";
 import { Player } from "../../api/types";
-import { Link } from "react-router-dom";
 import { STATUS } from "../../data/types/state";
 
 import './Players.css';
+import PlayerName from "../PlayerName";
+import PlayerRating from "../PlayerRating";
 
 export interface StateProps{
   readonly players: Player[];
@@ -48,9 +49,9 @@ const Players: FC<PlayersProps> = ({ status, players, fetchAllPlayers}) => {
       />
       <button onClick={submit} disabled={input.length < 1}>Add Player</button>
       <ul>
-        {players.map(({id, name}) => (
+        {players.map(({id}) => (
           <li key={id}>
-            <Link to={`/players/${id}`}>{name}</Link>
+            <PlayerName id={id} /> (<PlayerRating id={id} />)
           </li>
         ))}
       </ul>
