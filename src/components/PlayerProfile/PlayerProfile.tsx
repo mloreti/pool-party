@@ -29,8 +29,10 @@ export interface PlayerProfileRouteProps extends RouteComponentProps<PlayerProfi
 
 export type PlayerProfileProps = PlayerProfileMatchProps & StateProps;
 
-const PlayerProfile: FC<PlayerProfileProps> = (props) => {
-  let { id, name, rating, opponentStats, gamesPlayed } = props;
+const PlayerProfile: FC<PlayerProfileProps> = ({ id, name, rating, opponentStats, gamesPlayed }) => {
+  if (!name) {
+    return null;
+  }
   return (
     <div className="PlayerProfile">
       <h1>{name} - {rating}</h1>
