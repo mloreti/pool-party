@@ -4,6 +4,7 @@ import { Player } from '../../api/types';
 
 export interface OwnProps {
   readonly id: string;
+  readonly useInitials?: boolean;
 }
 
 export interface StateProps {
@@ -17,11 +18,28 @@ export interface DispatchProps {
 
 export type PlayerNameProps = StateProps & OwnProps & DispatchProps;
 
-const PlayerName: FC<PlayerNameProps> = ({ id, name, fetchPlayer, pending }) => {
+
+const getInitials = (name: string | null) => {
+  if (!name) {
+    return '??';
+  }
+  let initialMatches = name.match(/\b\w/g) || [];
+  let initials = ((initialMatches.shift() || '') + (initialMatches.pop() || '')).toUpperCase();
+  return initials;
+}
+
+const PlayerName: FC<PlayerNameProps> = ({ id, name, fetchPlayer, pending, useInitials = false }) => {
+  let renderedName = name;
+
   if (!name && !pending) {
     fetchPlayer(id);
   }
-  return  <Link to={`/players/${id}`}>{name}</Link>;
+  if (useInitials) {
+    renderedName = getInitials(name);
+  }
+  return (
+    <Link to={`/players/${id}`}>{renderedName}</Link>
+  )  
 }
 
 export default PlayerName;

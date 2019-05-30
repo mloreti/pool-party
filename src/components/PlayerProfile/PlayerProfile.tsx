@@ -3,10 +3,13 @@ import { RouteComponentProps } from "react-router";
 import { Player, Game } from "../../api/types";
 import PlayerName from "../PlayerName";
 import DateText from "../DateText";
-
 import "./PlayerProfile.css";
 import { Link } from "react-router-dom";
 import WinRate from "../WinRate/WinRateContainer";
+import { makeStyles, Avatar } from "@material-ui/core";
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+
 
 interface OpponentStat {
   readonly opponent: Player;
@@ -29,13 +32,32 @@ export interface PlayerProfileRouteProps extends RouteComponentProps<PlayerProfi
 
 export type PlayerProfileProps = PlayerProfileMatchProps & StateProps;
 
+const useStyles = makeStyles({
+  avatar: {
+    margin: 10,
+  },
+  orangeAvatar: {
+    margin: 10,
+    color: '#fff',
+    backgroundColor: deepOrange[500],
+  },
+  purpleAvatar: {
+    margin: 10,
+    color: '#fff',
+    backgroundColor: deepPurple[500],
+  },
+});
+
 const PlayerProfile: FC<PlayerProfileProps> = ({ id, name, rating, opponentStats, gamesPlayed }) => {
+  const classes = useStyles();
+
   if (!name) {
     return null;
   }
+
   return (
     <div className="PlayerProfile">
-      <h1>{name} - {rating}</h1>
+      <h1><Avatar className={classes.orangeAvatar}><PlayerName id={id} useInitials={true} /></Avatar> {name} - {rating}</h1>
       <h2>Win Rates</h2>
       <div>
         {
