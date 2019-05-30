@@ -6,7 +6,6 @@ import PlayerProfile, {
 } from "./PlayerProfile";
 import { State, STATUS } from "../../data/types/state";
 import {
-  computePlayerRating,
   getPlayerById,
   winRateBetweenPlayers,
   playersPlayerPlayed
@@ -24,7 +23,6 @@ export const mapStateToProps = (
 
   let { id } = match.params;
   let player = getPlayerById(state, id);
-  const rating = computePlayerRating(state, id) || 0;
   const gamesPlayed = gamesByPlayerId(state, id);
   const playersPlayed = playersPlayerPlayed(state, id);
   const opponentStats = playersPlayed.map(opponentId => ({
@@ -35,7 +33,6 @@ export const mapStateToProps = (
   return {
     id,
     name: player.name,
-    rating,
     ratingConfidence: player.ratingConfidence,
     gamesPlayed,
     opponentStats

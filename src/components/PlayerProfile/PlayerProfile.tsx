@@ -9,6 +9,7 @@ import WinRate from "../WinRate/WinRateContainer";
 import { makeStyles, Avatar } from "@material-ui/core";
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import deepPurple from '@material-ui/core/colors/deepPurple';
+import PlayerRating from "../PlayerRating";
 
 
 interface OpponentStat {
@@ -22,7 +23,6 @@ export interface PlayerProfileMatchProps {
 
 export interface StateProps {
   readonly name: Player['name'];
-  readonly rating: Player['rating'];
   readonly ratingConfidence: Player['ratingConfidence'];
   readonly gamesPlayed: Game[],
   readonly opponentStats: OpponentStat[],
@@ -48,7 +48,7 @@ const useStyles = makeStyles({
   },
 });
 
-const PlayerProfile: FC<PlayerProfileProps> = ({ id, name, rating, opponentStats, gamesPlayed }) => {
+const PlayerProfile: FC<PlayerProfileProps> = ({ id, name, opponentStats, gamesPlayed }) => {
   const classes = useStyles();
 
   if (!name) {
@@ -57,7 +57,7 @@ const PlayerProfile: FC<PlayerProfileProps> = ({ id, name, rating, opponentStats
 
   return (
     <div className="PlayerProfile">
-      <h1><Avatar className={classes.orangeAvatar}><PlayerName id={id} useInitials={true} /></Avatar> {name} - {rating}</h1>
+      <h1><Avatar className={classes.orangeAvatar}><PlayerName id={id} useInitials={true} /></Avatar> <PlayerName id={id} /> - <PlayerRating id={id} /></h1>
       <h2>Win Rates</h2>
       <div>
         {
